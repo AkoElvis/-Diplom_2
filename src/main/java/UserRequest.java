@@ -4,27 +4,27 @@ import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
-public class User {
+public class UserRequest {
     private String email;
     private String password;
     private String name;
 
-    public User(String email, String password, String name) {
+    public UserRequest(String email, String password, String name) {
         this.email = email;
         this.password = password;
         this.name = name;
     }
 
-    public User(String email, String password) {
+    public UserRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public User(String email) {
+    public UserRequest(String email) {
         this.email = email;
     }
 
-    public User() {
+    public UserRequest() {
     }
 
     public String getEmail() {

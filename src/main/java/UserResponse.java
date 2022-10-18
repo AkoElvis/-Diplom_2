@@ -3,11 +3,11 @@ import io.qameta.allure.Step;
 
 import static io.restassured.RestAssured.given;
 
-public class UserLogin {
+public class UserResponse {
     private String success;
     private String accessToken;
     private String refreshToken;
-    private User user;
+    private UserRequest user;
 
     public String getSuccess() {
         return success;
@@ -34,25 +34,34 @@ public class UserLogin {
         this.refreshToken = refreshToken;
     }
 
-    public User getUser() {
+    public UserRequest getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserRequest user) {
         this.user = user;
     }
 
     @Step("Login a user")
-    public static UserLogin loginUser(Object body) {
+    public static UserResponse getLoginUserResponse(Object body) {
         return given()
                 .header("Content-type", "application/json")
                 .body(body)
                 .when()
-                .post(TestStandEndpoints.LOGIN).as(UserLogin.class);
+                .post(TestStandEndpoints.LOGIN).as(UserResponse.class);
+    }
+
+    @Step("Register a user")
+    public static UserResponse getRegisterUserResponse(Object body) {
+        return given()
+                .header("Content-type", "application/json")
+                .body(body)
+                .when()
+                .post(TestStandEndpoints.REGISTER).as(UserResponse.class);
     }
 
     @Step("Delete a user")
-    public static void deleteUser(UserLogin userLogin) {
+    public static void deleteUser(UserResponse userLogin) {
         given()
                 .header("Content-type", "application/json")
                 .auth().oauth2(userLogin.getAccessToken())
