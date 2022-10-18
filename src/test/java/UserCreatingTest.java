@@ -1,13 +1,12 @@
+import Constants.Messages;
 import Constants.TestStandEndpoints;
+import TestData.CreatingRandomData;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Random;
-
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class UserCreatingTest {
@@ -15,39 +14,75 @@ public class UserCreatingTest {
     private String password;
     private String name;
 
+    // Перед каждым тестом формируем случайные тестовые данные
     @Before
     public void setUp() {
         RestAssured.baseURI = TestStandEndpoints.BASE_URL;
-        this.email = "Kolyaev221" + new Random().nextInt(10) + "@example.com";
-        this.password = "Kolyaev221" + new Random().nextInt(10);
-        this.name = "Kolyaev221" + new Random().nextInt(10);
+        this.email = CreatingRandomData.getRandomKolyaevEmail();
+        this.password = CreatingRandomData.getRandomKolyaevString();
+        this.name = CreatingRandomData.getRandomKolyaevString();
     }
 
+    // После окончания теста удаляем созданного пользователя
     @After
     public void deleteCreatedUser() {
         User user = new User(email,password);
-        UserLogin userLogin = given()
-                .header("Content-type", "application/json")
-                .body(user)
-                .when()
-                .post(TestStandEndpoints.LOGIN).as(UserLogin.class);
-        given()
-                .header("Content-type", "application/json")
-                .auth().oauth2(userLogin.getAccessToken())
-                .delete(TestStandEndpoints.USER);
+        UserLogin userLogin = UserLogin.loginUser(user);
+        if (userLogin.getSuccess() != "false") {
+        UserLogin.deleteUser(userLogin);}
     }
 
     @Test
+    @DisplayName("Checking the ability to register a user")
     public void checkSuccessfulCreating() {
         User user = new User(email,password,name);
-        Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(user)
-                .when()
-                .post(TestStandEndpoints.REGISTER);
+        Response response = user.getResponseRegisterUser(user);
         response.then().assertThat().body("success", equalTo(true))
                 .and()
                 .statusCode(200);
+    }
+
+    @Test
+    @DisplayName("Checking the inability to register two identical users")
+    public void checkExistedUserCreatingUnable() {
+        User user = new User(email,password,name);
+        User.registerUser(user);
+        Response response = user.getResponseRegisterUser(user);
+        response.then().assertThat().body("message", equalTo(Messages.EXISTED_LOGIN))
+                .and()
+                .statusCode(403);
+    }
+
+    @Test
+    @DisplayName("Checking the inability to register a user without an email")
+    public void checkNoEmailCreatingUserUnable() {
+        this.email = "";
+        User user = new User(email,password,name);
+        Response response = user.getResponseRegisterUser(user);
+        response.then().assertThat().body("message", equalTo(Messages.REQUIRED_FIELDS))
+                .and()
+                .statusCode(403);
+    }
+
+    @Test
+    @DisplayName("Checking the inability to register a user without a password")
+    public void checkNoPasswordCreatingUserUnable() {
+        this.password = "";
+        User user = new User(email,password,name);
+        Response response = user.getResponseRegisterUser(user);
+        response.then().assertThat().body("message", equalTo(Messages.REQUIRED_FIELDS))
+                .and()
+                .statusCode(403);
+    }
+
+    @Test
+    @DisplayName("Checking the inability to register a user without a name")
+    public void checkNoNameCreatingUserUnable() {
+        this.name = "";
+        User user = new User(email,password,name);
+        Response response = user.getResponseRegisterUser(user);
+        response.then().assertThat().body("message", equalTo(Messages.REQUIRED_FIELDS))
+                .and()
+                .statusCode(403);
     }
 }
