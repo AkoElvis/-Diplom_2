@@ -18,9 +18,9 @@ public class UserCreatingTest {
     @Before
     public void setUp() {
         RestAssured.baseURI = TestStandEndpoints.BASE_URL;
-        this.email = CreatingRandomData.getRandomKolyaevEmail();
-        this.password = CreatingRandomData.getRandomKolyaevString();
-        this.name = CreatingRandomData.getRandomKolyaevString();
+        this.email = CreatingRandomData.getRandomKoliaevEmail();
+        this.password = CreatingRandomData.getRandomKoliaevString();
+        this.name = CreatingRandomData.getRandomKoliaevString();
     }
 
     // После окончания теста удаляем созданного пользователя
