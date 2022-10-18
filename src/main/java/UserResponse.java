@@ -1,5 +1,6 @@
 import Constants.TestStandEndpoints;
 import io.qameta.allure.Step;
+import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
@@ -61,10 +62,26 @@ public class UserResponse {
     }
 
     @Step("Delete a user")
-    public static void deleteUser(UserResponse userLogin) {
+    public static void deleteUser(UserResponse userResponse) {
         given()
                 .header("Content-type", "application/json")
-                .auth().oauth2(userLogin.getAccessToken())
+                .auth().oauth2(userResponse.getAccessToken())
                 .delete(TestStandEndpoints.USER);
+    }
+
+    @Step("Get response for updating a user")
+    public Response getResponseUpdateUser(UserResponse userResponse) {
+        return given()
+                .header("Content-type", "application/json")
+                .auth().oauth2(userResponse.getAccessToken())
+                .patch(TestStandEndpoints.USER);
+    }
+
+    @Step("Get response for updating an unauthorised user")
+    public Response getResponseUpdateUnauthorisedUser(UserResponse userResponse) {
+        return given()
+                .header("Content-type", "application/json")
+                .auth().none()
+                .patch(TestStandEndpoints.USER);
     }
 }

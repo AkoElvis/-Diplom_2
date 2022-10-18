@@ -13,6 +13,8 @@ public class UserCreatingTest {
     private String email;
     private String password;
     private String name;
+    private UserRequest user;
+    private UserResponse userResponse;
 
     // Перед каждым тестом формируем случайные тестовые данные
     @Before
@@ -26,16 +28,16 @@ public class UserCreatingTest {
     // После окончания теста удаляем созданного пользователя
     @After
     public void deleteCreatedUser() {
-        UserRequest user = new UserRequest(email,password);
-        UserResponse userResponse = UserResponse.getLoginUserResponse(user);
+        this.user = new UserRequest(email,password);
+        this.userResponse = UserResponse.getLoginUserResponse(user);
         if (userResponse.getSuccess() != "false") {
-        UserResponse.deleteUser(userResponse);}
+            UserResponse.deleteUser(userResponse);}
     }
 
     @Test
     @DisplayName("Checking the ability to register a user")
     public void checkSuccessfulCreating() {
-        UserRequest user = new UserRequest(email,password,name);
+        this.user = new UserRequest(email,password,name);
         Response response = user.getResponseRegisterUser(user);
         response.then().assertThat().body("success", equalTo(true))
                 .and()
@@ -45,7 +47,7 @@ public class UserCreatingTest {
     @Test
     @DisplayName("Checking the inability to register two identical users")
     public void checkExistedUserCreatingUnable() {
-        UserRequest user = new UserRequest(email,password,name);
+        this.user = new UserRequest(email,password,name);
         UserRequest.registerUser(user);
         Response response = user.getResponseRegisterUser(user);
         response.then().assertThat().body("message", equalTo(Messages.EXISTED_LOGIN))
@@ -57,7 +59,7 @@ public class UserCreatingTest {
     @DisplayName("Checking the inability to register a user without an email")
     public void checkNoEmailCreatingUserUnable() {
         this.email = "";
-        UserRequest user = new UserRequest(email,password,name);
+        this.user = new UserRequest(email,password,name);
         Response response = user.getResponseRegisterUser(user);
         response.then().assertThat().body("message", equalTo(Messages.REQUIRED_FIELDS))
                 .and()
@@ -68,7 +70,7 @@ public class UserCreatingTest {
     @DisplayName("Checking the inability to register a user without a password")
     public void checkNoPasswordCreatingUserUnable() {
         this.password = "";
-        UserRequest user = new UserRequest(email,password,name);
+        this.user = new UserRequest(email,password,name);
         Response response = user.getResponseRegisterUser(user);
         response.then().assertThat().body("message", equalTo(Messages.REQUIRED_FIELDS))
                 .and()
@@ -79,7 +81,7 @@ public class UserCreatingTest {
     @DisplayName("Checking the inability to register a user without a name")
     public void checkNoNameCreatingUserUnable() {
         this.name = "";
-        UserRequest user = new UserRequest(email,password,name);
+        this.user = new UserRequest(email,password,name);
         Response response = user.getResponseRegisterUser(user);
         response.then().assertThat().body("message", equalTo(Messages.REQUIRED_FIELDS))
                 .and()

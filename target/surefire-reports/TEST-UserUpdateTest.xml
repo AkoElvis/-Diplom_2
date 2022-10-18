@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="UserCreatingTest" time="9.984" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="UserUpdateTest" time="7.4" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="sun.desktop" value="windows"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -62,9 +62,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="55.0"/>
   </properties>
-  <testcase name="checkNoNameCreatingUserUnable" classname="UserCreatingTest" time="5.244"/>
-  <testcase name="checkNoEmailCreatingUserUnable" classname="UserCreatingTest" time="0.882"/>
-  <testcase name="checkSuccessfulCreating" classname="UserCreatingTest" time="1.316"/>
-  <testcase name="checkNoPasswordCreatingUserUnable" classname="UserCreatingTest" time="0.644"/>
-  <testcase name="checkExistedUserCreatingUnable" classname="UserCreatingTest" time="1.589"/>
+  <testcase name="checkUpdateNameUnauthorisedUserUnableTest" classname="UserUpdateTest" time="1.493"/>
+  <testcase name="checkUpdateEmailRegisteredUserTest" classname="UserUpdateTest" time="1.053"/>
+  <testcase name="checkUpdatePasswordRegisteredUserTest" classname="UserUpdateTest" time="1.076"/>
+  <testcase name="checkUpdateNameRegisteredUserTest" classname="UserUpdateTest" time="1.647"/>
+  <testcase name="checkUpdateEmailUnauthorisedUserUnableTest" classname="UserUpdateTest" time="1.014"/>
+  <testcase name="checkUpdatePasswordUnauthorisedUserUnableTest" classname="UserUpdateTest" time="1.109"/>
 </testsuite>

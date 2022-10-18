@@ -1,3 +1,4 @@
+import Constants.Messages;
 import Constants.TestStandEndpoints;
 import TestData.CreatingRandomData;
 import io.qameta.allure.junit4.DisplayName;
@@ -14,6 +15,7 @@ public class UserLoginTest {
     private String password;
     private String name;
     private UserResponse userResponse;
+    private UserRequest user;
 
     // Перед каждым тестом формируем случайные тестовые данные и создаем пользователя
     @Before
@@ -22,7 +24,7 @@ public class UserLoginTest {
         this.email = CreatingRandomData.getRandomKoliaevEmail();
         this.password = CreatingRandomData.getRandomKoliaevString();
         this.name = CreatingRandomData.getRandomKoliaevString();
-        UserRequest user = new UserRequest(email,password,name);
+        this.user = new UserRequest(email,password,name);
         this.userResponse = UserResponse.getRegisterUserResponse(user);
     }
 
@@ -47,7 +49,7 @@ public class UserLoginTest {
     public void checkIncorrectPasswordUnsuccessfulLogin() {
         UserRequest user = new UserRequest(email,password + new Random().nextInt(10));
         Response response = user.getResponseLoginUser(user);
-        response.then().assertThat().body("success", equalTo(false))
+        response.then().assertThat().body("message", equalTo(Messages.INCORRECT_FIELD))
                 .and()
                 .statusCode(401);
     }
@@ -57,7 +59,7 @@ public class UserLoginTest {
     public void checkIncorrectEmailUnsuccessfulLogin() {
         UserRequest user = new UserRequest(new Random().nextInt(10) + email,password);
         Response response = user.getResponseLoginUser(user);
-        response.then().assertThat().body("success", equalTo(false))
+        response.then().assertThat().body("message", equalTo(Messages.INCORRECT_FIELD))
                 .and()
                 .statusCode(401);
     }
@@ -67,7 +69,7 @@ public class UserLoginTest {
     public void checkNoPasswordUnsuccessfulLogin() {
         UserRequest user = new UserRequest(email,"");
         Response response = user.getResponseLoginUser(user);
-        response.then().assertThat().body("success", equalTo(false))
+        response.then().assertThat().body("message", equalTo(Messages.INCORRECT_FIELD))
                 .and()
                 .statusCode(401);
     }
@@ -77,7 +79,7 @@ public class UserLoginTest {
     public void checkNoEmailUnsuccessfulLogin() {
         UserRequest user = new UserRequest("",password);
         Response response = user.getResponseLoginUser(user);
-        response.then().assertThat().body("success", equalTo(false))
+        response.then().assertThat().body("message", equalTo(Messages.INCORRECT_FIELD))
                 .and()
                 .statusCode(401);
     }
@@ -87,7 +89,7 @@ public class UserLoginTest {
     public void checkNoEmailNoPasswordUnsuccessfulLogin() {
         UserRequest user = new UserRequest("","");
         Response response = user.getResponseLoginUser(user);
-        response.then().assertThat().body("success", equalTo(false))
+        response.then().assertThat().body("message", equalTo(Messages.INCORRECT_FIELD))
                 .and()
                 .statusCode(401);
     }
