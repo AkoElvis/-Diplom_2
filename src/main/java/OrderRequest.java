@@ -25,7 +25,7 @@ public class OrderRequest {
     }
 
     @Step("Get response of an unauthorized user's order")
-    public Response getResponseCreateUnauthorizedUserOrder(OrderRequest orderRequest) {
+    public static Response getResponseCreateUnauthorizedUserOrder(OrderRequest orderRequest) {
         return given()
                 .header("Content-type", "application/json")
                 .and()
@@ -35,7 +35,7 @@ public class OrderRequest {
     }
 
     @Step("Get response of an authorized user's order")
-    public Response getResponseCreateAuthorizedUserOrder(OrderRequest orderRequest, UserResponse userResponse) {
+    public static Response getResponseCreateAuthorizedUserOrder(OrderRequest orderRequest, UserResponse userResponse) {
         return given()
                 .header("Content-type", "application/json")
                 .auth().oauth2(userResponse.getAccessToken())
@@ -46,7 +46,7 @@ public class OrderRequest {
     }
 
     @Step("Get response body of an authorized user's order")
-    public OrderResponse getResponseBodyCreateAuthorizedUserOrder(OrderRequest orderRequest, UserResponse userResponse) {
+    public static OrderResponse getResponseBodyCreateAuthorizedUserOrder(OrderRequest orderRequest, UserResponse userResponse) {
         return given()
                 .header("Content-type", "application/json")
                 .auth().oauth2(userResponse.getAccessToken())
@@ -54,5 +54,16 @@ public class OrderRequest {
                 .body(orderRequest)
                 .when()
                 .post(TestStandEndpoints.ORDER).as(OrderResponse.class);
+    }
+
+    @Step("Create an order of an authorized user")
+    public static void createAuthorizedUserOrder(OrderRequest orderRequest, UserResponse userResponse) {
+                given()
+                .header("Content-type", "application/json")
+                .auth().oauth2(userResponse.getAccessToken())
+                .and()
+                .body(orderRequest)
+                .when()
+                .post(TestStandEndpoints.ORDER);
     }
 }

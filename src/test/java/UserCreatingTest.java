@@ -20,9 +20,9 @@ public class UserCreatingTest {
     @Before
     public void setUp() {
         RestAssured.baseURI = TestStandEndpoints.BASE_URL;
-        this.email = CreatingRandomData.getRandomKolyaevAlexEmail();
-        this.password = CreatingRandomData.getRandomKolyaevAlexString();
-        this.name = CreatingRandomData.getRandomKolyaevAlexString();
+        this.email = CreatingRandomData.getRandomKolyaevAlexeyEmail();
+        this.password = CreatingRandomData.getRandomKolyaevAlexeyString();
+        this.name = CreatingRandomData.getRandomKolyaevAlexeyString();
     }
 
     // После окончания теста удаляем созданного пользователя
@@ -30,7 +30,7 @@ public class UserCreatingTest {
     public void deleteCreatedUser() {
         this.user = new UserRequest(email,password);
         this.userResponse = UserResponse.getLoginUserResponse(user);
-        if (userResponse.getSuccess() != false) {
+        if (userResponse.getSuccess()) {
             UserResponse.deleteUser(userResponse);}
     }
 
@@ -58,8 +58,7 @@ public class UserCreatingTest {
     @Test
     @DisplayName("Checking the inability to register a user without an email")
     public void checkNoEmailCreatingUserUnable() {
-        this.email = "";
-        this.user = new UserRequest(email,password,name);
+        this.user = new UserRequest("",password,name);
         Response response = user.getResponseRegisterUser(user);
         response.then().assertThat().body("message", equalTo(Messages.REQUIRED_FIELDS))
                 .and()
@@ -69,8 +68,7 @@ public class UserCreatingTest {
     @Test
     @DisplayName("Checking the inability to register a user without a password")
     public void checkNoPasswordCreatingUserUnable() {
-        this.password = "";
-        this.user = new UserRequest(email,password,name);
+        this.user = new UserRequest(email,"",name);
         Response response = user.getResponseRegisterUser(user);
         response.then().assertThat().body("message", equalTo(Messages.REQUIRED_FIELDS))
                 .and()
@@ -80,8 +78,7 @@ public class UserCreatingTest {
     @Test
     @DisplayName("Checking the inability to register a user without a name")
     public void checkNoNameCreatingUserUnable() {
-        this.name = "";
-        this.user = new UserRequest(email,password,name);
+        this.user = new UserRequest(email,password,"");
         Response response = user.getResponseRegisterUser(user);
         response.then().assertThat().body("message", equalTo(Messages.REQUIRED_FIELDS))
                 .and()

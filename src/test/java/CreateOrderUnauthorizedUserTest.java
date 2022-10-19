@@ -29,7 +29,7 @@ public class CreateOrderUnauthorizedUserTest {
     @Test
     @DisplayName("Checking the ability to create an order for an unauthorized user")
     public void checkUnauthorizedUserSuccessfulOrder() {
-        Response response = orderRequest.getResponseCreateUnauthorizedUserOrder(orderRequest);
+        Response response = OrderRequest.getResponseCreateUnauthorizedUserOrder(orderRequest);
         response.then().assertThat().body("success", equalTo(true))
                 .and()
                 .statusCode(200);
@@ -48,7 +48,7 @@ public class CreateOrderUnauthorizedUserTest {
     @Test
     @DisplayName("Checking the inability to create an order with an invalid ingredient id for an unauthorized user")
     public void checkUnauthorizedUserInvalidHashOrder() {
-        this.hash = hash + CreatingRandomData.getRandomKolyaevAlexString();
+        this.hash = hash + CreatingRandomData.getRandomKolyaevAlexeyString();
         this.ingredients = Arrays.asList(hash);
         this.orderRequest = new OrderRequest(ingredients);
         Response response = orderRequest.getResponseCreateUnauthorizedUserOrder(orderRequest);

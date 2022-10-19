@@ -2,10 +2,12 @@ OrderRequest.class
 Ingredient.class
 Constants\TestStandEndpoints.class
 OrderResponse.class
+UserResponse.class
+UserOrders.class
+UserOrderResponse.class
 Constants\Messages.class
 TestData\CreatingRandomData.class
 Order.class
 UserRequest.class
 Owner.class
 IngredientsResponse.class
-UserResponse.class

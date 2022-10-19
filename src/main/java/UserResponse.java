@@ -70,7 +70,7 @@ public class UserResponse {
     }
 
     @Step("Get response for updating a user")
-    public Response getResponseUpdateUser(UserResponse userResponse) {
+    public static Response getResponseUpdateUser(UserResponse userResponse) {
         return given()
                 .header("Content-type", "application/json")
                 .auth().oauth2(userResponse.getAccessToken())
@@ -78,7 +78,7 @@ public class UserResponse {
     }
 
     @Step("Get response for updating an unauthorised user")
-    public Response getResponseUpdateUnauthorisedUser(UserResponse userResponse) {
+    public static Response getResponseUpdateUnauthorisedUser(UserResponse userResponse) {
         return given()
                 .header("Content-type", "application/json")
                 .auth().none()

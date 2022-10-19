@@ -21,9 +21,9 @@ public class UserLoginTest {
     @Before
     public void setUp() {
         RestAssured.baseURI = TestStandEndpoints.BASE_URL;
-        this.email = CreatingRandomData.getRandomKolyaevAlexEmail();
-        this.password = CreatingRandomData.getRandomKolyaevAlexString();
-        this.name = CreatingRandomData.getRandomKolyaevAlexString();
+        this.email = CreatingRandomData.getRandomKolyaevAlexeyEmail();
+        this.password = CreatingRandomData.getRandomKolyaevAlexeyString();
+        this.name = CreatingRandomData.getRandomKolyaevAlexeyString();
         this.user = new UserRequest(email,password,name);
         this.userResponse = UserResponse.getRegisterUserResponse(user);
     }

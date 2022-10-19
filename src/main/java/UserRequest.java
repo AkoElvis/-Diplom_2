@@ -52,7 +52,7 @@ public class UserRequest {
     }
 
     @Step("Get response for registration")
-    public Response getResponseRegisterUser(Object body) {
+    public static Response getResponseRegisterUser(Object body) {
         return given()
                 .header("Content-type", "application/json")
                 .and()
@@ -72,7 +72,7 @@ public class UserRequest {
     }
 
     @Step("Get response for login a user")
-    public Response getResponseLoginUser(Object body) {
+    public static Response getResponseLoginUser(Object body) {
         return given()
                 .header("Content-type", "application/json")
                 .body(body)
