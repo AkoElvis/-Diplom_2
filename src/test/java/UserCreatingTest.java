@@ -20,9 +20,9 @@ public class UserCreatingTest {
     @Before
     public void setUp() {
         RestAssured.baseURI = TestStandEndpoints.BASE_URL;
-        this.email = CreatingRandomData.getRandomKolyaevAlexeyEmail();
-        this.password = CreatingRandomData.getRandomKolyaevAlexeyString();
-        this.name = CreatingRandomData.getRandomKolyaevAlexeyString();
+        this.email = CreatingRandomData.getRandomAlexeyKolyaevEmail();
+        this.password = CreatingRandomData.getRandomAlexeyKolyaevString();
+        this.name = CreatingRandomData.getRandomAlexeyKolyaevString();
     }
 
     // После окончания теста удаляем созданного пользователя
@@ -31,7 +31,7 @@ public class UserCreatingTest {
         this.user = new UserRequest(email,password);
         this.userResponse = UserResponse.getLoginUserResponse(user);
         if (userResponse.getSuccess()) {
-            UserResponse.deleteUser(userResponse);}
+           UserResponse.deleteUser(userResponse);}
     }
 
     @Test

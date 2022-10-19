@@ -21,9 +21,9 @@ public class UserUpdateTest {
     @Before
     public void setUp() {
         RestAssured.baseURI = TestStandEndpoints.BASE_URL;
-        this.email = CreatingRandomData.getRandomKolyaevAlexeyEmail();
-        this.password = CreatingRandomData.getRandomKolyaevAlexeyString();
-        this.name = CreatingRandomData.getRandomKolyaevAlexeyString();
+        this.email = CreatingRandomData.getRandomAlexeyKolyaevEmail();
+        this.password = CreatingRandomData.getRandomAlexeyKolyaevString();
+        this.name = CreatingRandomData.getRandomAlexeyKolyaevString();
         this.user = new UserRequest(email,password,name);
         this.userResponse = UserResponse.getRegisterUserResponse(user);
     }
@@ -33,15 +33,13 @@ public class UserUpdateTest {
     public void deleteCreatedUser() {
         this.user = new UserRequest(email,password);
         this.userResponse = UserResponse.getLoginUserResponse(user);
-        if (userResponse.getSuccess() != false) {
-            UserResponse.deleteUser(userResponse);}
+        UserResponse.deleteUser(userResponse);
     }
 
     @Test
     @DisplayName("Checking the ability to update a name")
     public void checkUpdateNameRegisteredUserTest() {
-        this.name = name + new Random().nextInt(10);
-        this.user = new UserRequest(email,password,name);
+        this.user = new UserRequest(email,password,name + new Random().nextInt(10));
         Response response = userResponse.getResponseUpdateUser(userResponse);
         response.then().assertThat().body("success", equalTo(true))
                 .and()
@@ -51,8 +49,7 @@ public class UserUpdateTest {
     @Test
     @DisplayName("Checking the ability to update an email")
     public void checkUpdateEmailRegisteredUserTest() {
-        this.email = new Random().nextInt(10) + email;
-        this.user = new UserRequest(email,password,name);
+        this.user = new UserRequest(new Random().nextInt(10) + email,password,name);
         Response response = userResponse.getResponseUpdateUser(userResponse);
         response.then().assertThat().body("success", equalTo(true))
                 .and()
@@ -62,8 +59,7 @@ public class UserUpdateTest {
     @Test
     @DisplayName("Checking the ability to update a password")
     public void checkUpdatePasswordRegisteredUserTest() {
-        this.password = password + new Random().nextInt(10);
-        this.user = new UserRequest(email,password,name);
+        this.user = new UserRequest(email,password + new Random().nextInt(10),name);
         Response response = userResponse.getResponseUpdateUser(userResponse);
         response.then().assertThat().body("success", equalTo(true))
                 .and()
@@ -73,8 +69,7 @@ public class UserUpdateTest {
     @Test
     @DisplayName("Checking the inability to update a password of an unauthorised user")
     public void checkUpdatePasswordUnauthorisedUserUnableTest() {
-        this.password = password + new Random().nextInt(10);
-        this.user = new UserRequest(email,password,name);
+        this.user = new UserRequest(email,password + new Random().nextInt(10),name);
         Response response = userResponse.getResponseUpdateUnauthorisedUser(userResponse);
         response.then().assertThat().body("message", equalTo(Messages.UNAUTHORIZED))
                 .and()
@@ -84,8 +79,7 @@ public class UserUpdateTest {
     @Test
     @DisplayName("Checking the inability to update an email of an unauthorised user")
     public void checkUpdateEmailUnauthorisedUserUnableTest() {
-        this.email = new Random().nextInt(10) + email;
-        this.user = new UserRequest(email,password,name);
+        this.user = new UserRequest(new Random().nextInt(10) + email,password,name);
         Response response = userResponse.getResponseUpdateUnauthorisedUser(userResponse);
         response.then().assertThat().body("message", equalTo(Messages.UNAUTHORIZED))
                 .and()
@@ -95,8 +89,7 @@ public class UserUpdateTest {
     @Test
     @DisplayName("Checking the inability to update a name of an unauthorised user")
     public void checkUpdateNameUnauthorisedUserUnableTest() {
-        this.name = new Random().nextInt(10) + name;
-        this.user = new UserRequest(email,password,name);
+        this.user = new UserRequest(email,password,new Random().nextInt(10) + name);
         Response response = userResponse.getResponseUpdateUnauthorisedUser(userResponse);
         response.then().assertThat().body("message", equalTo(Messages.UNAUTHORIZED))
                 .and()

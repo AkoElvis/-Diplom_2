@@ -48,7 +48,7 @@ public class CreateOrderUnauthorizedUserTest {
     @Test
     @DisplayName("Checking the inability to create an order with an invalid ingredient id for an unauthorized user")
     public void checkUnauthorizedUserInvalidHashOrder() {
-        this.hash = hash + CreatingRandomData.getRandomKolyaevAlexeyString();
+        this.hash = hash + CreatingRandomData.getRandomAlexeyKolyaevString();
         this.ingredients = Arrays.asList(hash);
         this.orderRequest = new OrderRequest(ingredients);
         Response response = orderRequest.getResponseCreateUnauthorizedUserOrder(orderRequest);

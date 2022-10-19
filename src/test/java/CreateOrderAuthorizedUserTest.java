@@ -28,9 +28,9 @@ public class CreateOrderAuthorizedUserTest {
     @Before
     public void setUp() {
         RestAssured.baseURI = TestStandEndpoints.BASE_URL;
-        this.email = CreatingRandomData.getRandomKolyaevAlexeyEmail();
-        this.password = CreatingRandomData.getRandomKolyaevAlexeyString();
-        this.name = CreatingRandomData.getRandomKolyaevAlexeyString();
+        this.email = CreatingRandomData.getRandomAlexeyKolyaevEmail();
+        this.password = CreatingRandomData.getRandomAlexeyKolyaevString();
+        this.name = CreatingRandomData.getRandomAlexeyKolyaevString();
         this.user = new UserRequest(email,password,name);
         this.userResponse = UserResponse.getRegisterUserResponse(user);
         // А также создаем тело запроса со случайным хэшем из списка ингредиентов
@@ -64,7 +64,7 @@ public class CreateOrderAuthorizedUserTest {
     @Test
     @DisplayName("Checking the inability to create an order with an invalid ingredient id for an authorized user")
     public void checkAuthorizedUserInvalidHashOrder() {
-        this.hash = hash + CreatingRandomData.getRandomKolyaevAlexeyString();
+        this.hash = hash + CreatingRandomData.getRandomAlexeyKolyaevString();
         this.ingredients = Arrays.asList(hash);
         this.orderRequest = new OrderRequest(ingredients);
         Response response = orderRequest.getResponseCreateAuthorizedUserOrder(orderRequest, userResponse);

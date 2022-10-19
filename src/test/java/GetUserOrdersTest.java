@@ -30,9 +30,9 @@ public class GetUserOrdersTest {
     @Before
     public void setUp() {
         RestAssured.baseURI = TestStandEndpoints.BASE_URL;
-        this.email = CreatingRandomData.getRandomKolyaevAlexeyEmail();
-        this.password = CreatingRandomData.getRandomKolyaevAlexeyString();
-        this.name = CreatingRandomData.getRandomKolyaevAlexeyString();
+        this.email = CreatingRandomData.getRandomAlexeyKolyaevEmail();
+        this.password = CreatingRandomData.getRandomAlexeyKolyaevString();
+        this.name = CreatingRandomData.getRandomAlexeyKolyaevString();
         this.user = new UserRequest(email,password,name);
         this.userResponse = UserResponse.getRegisterUserResponse(user);
         // А также создаем тело запроса со случайным хэшем из списка ингредиентов

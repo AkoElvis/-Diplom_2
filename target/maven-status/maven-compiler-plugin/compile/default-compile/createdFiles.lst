@@ -2,6 +2,7 @@ OrderRequest.class
 Ingredient.class
 Constants\TestStandEndpoints.class
 OrderResponse.class
+Constants\Link.class
 UserResponse.class
 UserOrders.class
 UserOrderResponse.class
