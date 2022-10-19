@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="UserLoginTest" time="7.083" tests="6" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="CreateOrderUnauthorizedUserTest" time="2.015" tests="3" errors="0" skipped="0" failures="0">
   <properties>
     <property name="sun.desktop" value="windows"/>
     <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
@@ -62,10 +62,7 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="55.0"/>
   </properties>
-  <testcase name="checkNoEmailUnsuccessfulLogin" classname="UserLoginTest" time="1.207"/>
-  <testcase name="checkNoEmailNoPasswordUnsuccessfulLogin" classname="UserLoginTest" time="1.146"/>
-  <testcase name="checkIncorrectPasswordUnsuccessfulLogin" classname="UserLoginTest" time="1.282"/>
-  <testcase name="checkSuccessfulLogin" classname="UserLoginTest" time="1.208"/>
-  <testcase name="checkIncorrectEmailUnsuccessfulLogin" classname="UserLoginTest" time="1.115"/>
-  <testcase name="checkNoPasswordUnsuccessfulLogin" classname="UserLoginTest" time="1.109"/>
+  <testcase name="checkUnauthorizedUserInvalidHashOrder" classname="CreateOrderUnauthorizedUserTest" time="0.723"/>
+  <testcase name="checkUnauthorizedUserSuccessfulOrder" classname="CreateOrderUnauthorizedUserTest" time="0.668"/>
+  <testcase name="checkUnauthorizedUserEmptyOrder" classname="CreateOrderUnauthorizedUserTest" time="0.62"/>
 </testsuite>

@@ -5,16 +5,16 @@ import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
 public class UserResponse {
-    private String success;
+    private Boolean success;
     private String accessToken;
     private String refreshToken;
     private UserRequest user;
 
-    public String getSuccess() {
+    public Boolean getSuccess() {
         return success;
     }
 
-    public void setSuccess(String success) {
+    public void setSuccess(Boolean success) {
         this.success = success;
     }
 

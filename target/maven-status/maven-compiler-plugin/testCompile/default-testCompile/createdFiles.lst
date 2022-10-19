@@ -1,4 +1,5 @@
 UserLoginTest.class
-CreateOrderTest.class
+CreateOrderAuthorizedUserTest.class
+CreateOrderUnauthorizedUserTest.class
 UserCreatingTest.class
 UserUpdateTest.class

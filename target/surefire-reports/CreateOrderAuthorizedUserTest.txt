@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: CreateOrderTest
+Test set: CreateOrderAuthorizedUserTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.387 s - in CreateOrderTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.919 s - in CreateOrderAuthorizedUserTest
