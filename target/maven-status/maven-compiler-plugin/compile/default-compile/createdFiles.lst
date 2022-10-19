@@ -1,6 +1,9 @@
-Constants\Messages.class
-TestData\CreatingRandomData.class
-UserRequest.class
+Ingredient.class
 Constants\TestStandEndpoints.class
 UserToken.class
+Constants\Messages.class
+TestData\CreatingRandomData.class
+Order.class
+UserRequest.class
+IngredientsResponse.class
 UserResponse.class

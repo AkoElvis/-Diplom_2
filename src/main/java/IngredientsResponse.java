@@ -1,4 +1,5 @@
 import Constants.TestStandEndpoints;
+import TestData.CreatingRandomData;
 import io.qameta.allure.Step;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class IngredientsResponse {
                 .get(TestStandEndpoints.INGREDIENTS)
                 .body().as(IngredientsResponse.class);
         List<Ingredient> data = ingredientsResponse.getIngredients();
-        Ingredient ingredient = data.get(0);
+        Ingredient ingredient = data.get(CreatingRandomData.getRandomInt(data.size()));
         return ingredient.get_id();
     }
 }
