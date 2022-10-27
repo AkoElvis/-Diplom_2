@@ -1,6 +1,7 @@
 import Constants.Messages;
 import Constants.TestStandEndpoints;
 import TestData.CreatingRandomData;
+import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -13,9 +14,22 @@ import static org.hamcrest.CoreMatchers.equalTo;
 public class UserLoginTest {
     private String email;
     private String password;
-    private String name;
     private UserResponse userResponse;
-    private UserRequest user;
+
+    @Step("Check that the user is logged in. The response should contain 'success:true' and status code 200")
+    public void checkResponseContainsSuccessTrue(Response response) {
+        response.then().assertThat().body("success", equalTo(true))
+                .and()
+                .statusCode(200);
+    }
+
+    @Step("Check that the user isn't logged in. " +
+            "The response should contain the expected warning message and status code 401")
+    public void checkResponseContainsWarningMessageIncorrectField(Response response) {
+        response.then().assertThat().body("message", equalTo(Messages.INCORRECT_FIELD))
+                .and()
+                .statusCode(401);
+    }
 
     // Перед каждым тестом формируем случайные тестовые данные и создаем пользователя
     @Before
@@ -23,8 +37,8 @@ public class UserLoginTest {
         RestAssured.baseURI = TestStandEndpoints.BASE_URL;
         this.email = CreatingRandomData.getRandomAlexeyKolyaevEmail();
         this.password = CreatingRandomData.getRandomAlexeyKolyaevString();
-        this.name = CreatingRandomData.getRandomAlexeyKolyaevString();
-        this.user = new UserRequest(email,password,name);
+        String name = CreatingRandomData.getRandomAlexeyKolyaevString();
+        UserRequest user = new UserRequest(email, password, name);
         this.userResponse = UserResponse.getRegisterUserResponse(user);
     }
 
@@ -38,59 +52,47 @@ public class UserLoginTest {
     @DisplayName("Checking the ability of an existing user to log in")
     public void checkSuccessfulLogin() {
         UserRequest user = new UserRequest(email,password);
-        Response response = user.getResponseLoginUser(user);
-        response.then().assertThat().body("success", equalTo(true))
-                .and()
-                .statusCode(200);
+        Response response = UserRequest.getResponseLoginUser(user);
+        checkResponseContainsSuccessTrue(response);
     }
 
     @Test
     @DisplayName("Checking the inability of a non-existent user to log in. Incorrect password")
     public void checkIncorrectPasswordUnsuccessfulLogin() {
         UserRequest user = new UserRequest(email,password + new Random().nextInt(10));
-        Response response = user.getResponseLoginUser(user);
-        response.then().assertThat().body("message", equalTo(Messages.INCORRECT_FIELD))
-                .and()
-                .statusCode(401);
+        Response response = UserRequest.getResponseLoginUser(user);
+        checkResponseContainsWarningMessageIncorrectField(response);
     }
 
     @Test
     @DisplayName("Checking the inability of a non-existent user to log in. Incorrect email")
     public void checkIncorrectEmailUnsuccessfulLogin() {
         UserRequest user = new UserRequest(new Random().nextInt(10) + email,password);
-        Response response = user.getResponseLoginUser(user);
-        response.then().assertThat().body("message", equalTo(Messages.INCORRECT_FIELD))
-                .and()
-                .statusCode(401);
+        Response response = UserRequest.getResponseLoginUser(user);
+        checkResponseContainsWarningMessageIncorrectField(response);
     }
 
     @Test
     @DisplayName("Checking the inability of a non-existent user to log in. No password")
     public void checkNoPasswordUnsuccessfulLogin() {
         UserRequest user = new UserRequest(email,"");
-        Response response = user.getResponseLoginUser(user);
-        response.then().assertThat().body("message", equalTo(Messages.INCORRECT_FIELD))
-                .and()
-                .statusCode(401);
+        Response response = UserRequest.getResponseLoginUser(user);
+        checkResponseContainsWarningMessageIncorrectField(response);
     }
 
     @Test
     @DisplayName("Checking the inability of a non-existent user to log in. No email")
     public void checkNoEmailUnsuccessfulLogin() {
         UserRequest user = new UserRequest("",password);
-        Response response = user.getResponseLoginUser(user);
-        response.then().assertThat().body("message", equalTo(Messages.INCORRECT_FIELD))
-                .and()
-                .statusCode(401);
+        Response response = UserRequest.getResponseLoginUser(user);
+        checkResponseContainsWarningMessageIncorrectField(response);
     }
 
     @Test
     @DisplayName("Checking the inability of a non-existent user to log in. No email, no password")
     public void checkNoEmailNoPasswordUnsuccessfulLogin() {
         UserRequest user = new UserRequest("","");
-        Response response = user.getResponseLoginUser(user);
-        response.then().assertThat().body("message", equalTo(Messages.INCORRECT_FIELD))
-                .and()
-                .statusCode(401);
+        Response response = UserRequest.getResponseLoginUser(user);
+        checkResponseContainsWarningMessageIncorrectField(response);
     }
 }

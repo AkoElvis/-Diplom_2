@@ -1,6 +1,7 @@
 import Constants.Messages;
 import Constants.TestStandEndpoints;
 import TestData.CreatingRandomData;
+import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -15,6 +16,29 @@ public class UserCreatingTest {
     private String name;
     private UserRequest user;
     private UserResponse userResponse;
+
+    @Step("Check that the user is created. The response should contain 'success:true' and status code 200")
+    public void checkResponseContainsSuccessTrue(Response response) {
+        response.then().assertThat().body("success", equalTo(true))
+                .and()
+                .statusCode(200);
+    }
+
+    @Step("Check that the user isn't created. " +
+            "The response should contain the expected warning message and status code 403")
+    public void checkResponseContainsWarningMessageExistedLogin(Response response) {
+        response.then().assertThat().body("message", equalTo(Messages.EXISTED_LOGIN))
+                .and()
+                .statusCode(403);
+    }
+
+    @Step("Check that the user isn't created. " +
+            "The response should contain the expected warning message and status code 403")
+    public void checkResponseContainsWarningMessageRequiredFields(Response response) {
+        response.then().assertThat().body("message", equalTo(Messages.REQUIRED_FIELDS))
+                .and()
+                .statusCode(403);
+    }
 
     // Перед каждым тестом формируем случайные тестовые данные
     @Before
@@ -38,10 +62,8 @@ public class UserCreatingTest {
     @DisplayName("Checking the ability to register a user")
     public void checkSuccessfulCreating() {
         this.user = new UserRequest(email,password,name);
-        Response response = user.getResponseRegisterUser(user);
-        response.then().assertThat().body("success", equalTo(true))
-                .and()
-                .statusCode(200);
+        Response response = UserRequest.getResponseRegisterUser(user);
+        checkResponseContainsSuccessTrue(response);
     }
 
     @Test
@@ -49,39 +71,31 @@ public class UserCreatingTest {
     public void checkExistedUserCreatingUnable() {
         this.user = new UserRequest(email,password,name);
         UserRequest.registerUser(user);
-        Response response = user.getResponseRegisterUser(user);
-        response.then().assertThat().body("message", equalTo(Messages.EXISTED_LOGIN))
-                .and()
-                .statusCode(403);
+        Response response = UserRequest.getResponseRegisterUser(user);
+        checkResponseContainsWarningMessageExistedLogin(response);
     }
 
     @Test
     @DisplayName("Checking the inability to register a user without an email")
     public void checkNoEmailCreatingUserUnable() {
         this.user = new UserRequest("",password,name);
-        Response response = user.getResponseRegisterUser(user);
-        response.then().assertThat().body("message", equalTo(Messages.REQUIRED_FIELDS))
-                .and()
-                .statusCode(403);
+        Response response = UserRequest.getResponseRegisterUser(user);
+        checkResponseContainsWarningMessageRequiredFields(response);
     }
 
     @Test
     @DisplayName("Checking the inability to register a user without a password")
     public void checkNoPasswordCreatingUserUnable() {
         this.user = new UserRequest(email,"",name);
-        Response response = user.getResponseRegisterUser(user);
-        response.then().assertThat().body("message", equalTo(Messages.REQUIRED_FIELDS))
-                .and()
-                .statusCode(403);
+        Response response = UserRequest.getResponseRegisterUser(user);
+        checkResponseContainsWarningMessageRequiredFields(response);
     }
 
     @Test
     @DisplayName("Checking the inability to register a user without a name")
     public void checkNoNameCreatingUserUnable() {
         this.user = new UserRequest(email,password,"");
-        Response response = user.getResponseRegisterUser(user);
-        response.then().assertThat().body("message", equalTo(Messages.REQUIRED_FIELDS))
-                .and()
-                .statusCode(403);
+        Response response = UserRequest.getResponseRegisterUser(user);
+        checkResponseContainsWarningMessageRequiredFields(response);
     }
 }
