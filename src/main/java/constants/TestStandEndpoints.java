@@ -1,4 +1,4 @@
-package Constants;
+package constants;
 
 public class TestStandEndpoints {
     public static final String BASE_URL = "https://stellarburgers.nomoreparties.site";

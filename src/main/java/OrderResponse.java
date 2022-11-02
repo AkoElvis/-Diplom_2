@@ -1,5 +1,3 @@
-import Constants.TestStandEndpoints;
-import io.qameta.allure.Step;
 import static io.restassured.RestAssured.given;
 
 public class OrderResponse {

@@ -1,4 +1,4 @@
-package Constants;
+package constants;
 
 public class Messages {
     public static final String EXISTED_LOGIN = "User already exists";

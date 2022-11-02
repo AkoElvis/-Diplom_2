@@ -1,5 +1,5 @@
-import Constants.TestStandEndpoints;
-import TestData.CreatingRandomData;
+import constants.TestStandEndpoints;
+import testdata.CreatingRandomData;
 import io.qameta.allure.Step;
 
 import java.util.List;

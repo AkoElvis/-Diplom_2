@@ -1,6 +1,6 @@
-import Constants.Messages;
-import Constants.TestStandEndpoints;
-import TestData.CreatingRandomData;
+import constants.Messages;
+import constants.TestStandEndpoints;
+import testdata.CreatingRandomData;
 import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.RestAssured;
